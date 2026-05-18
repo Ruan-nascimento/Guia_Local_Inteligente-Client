@@ -1,3 +1,5 @@
+import { LoadingDots } from "./loadingDots";
+
 export function LoadingSearch() {
     return (
         <section className="space-y-5 animate-pulse">
@@ -16,9 +18,7 @@ export function LoadingSearch() {
                 <div className="h-20 rounded-2xl bg-slate-900 border border-slate-800" />
             </div>
 
-            <p className="text-center text-sm text-slate-400">
-                Buscando informações da região...
-            </p>
+            <LoadingDots />
         </section>
     );
 }

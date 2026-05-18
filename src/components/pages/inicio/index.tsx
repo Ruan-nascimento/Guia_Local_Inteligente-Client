@@ -1,13 +1,14 @@
 import { CardSimple } from "@/components/cardSimple";
+import { DefaultScreen } from "@/components/defaultScreen";
 import { ErrorScreen } from "@/components/errorScreen";
 import { FindSection } from "@/components/findSection";
 import { Header } from "@/components/header";
 import { LoadingSearch } from "@/components/loadingSearch";
 import { ResultScreen } from "@/components/resultsScreen";
 import { placesMock } from "@/data/places";
-import { getAddressByCep } from "@/services/cepService";
-import { getCoordinates } from "@/services/geoCodingService";
-import { getWeather } from "@/services/weatherService";
+import type { AddressData } from "@/interfaces/cepService.interface";
+import type { WeatherData } from "@/interfaces/weatherService.interface";
+import { searchRegion } from "@/services/searchRegion";
 import { useState } from "react";
 
 type ScreenState = "idle" | "loading" | "success" | "error";
@@ -16,9 +17,10 @@ export const InicioPage = () => {
     const [cep, setCep] = useState("");
     const [screenState, setScreenState] = useState<ScreenState>("idle");
 
-    const [address, setAddress] = useState<any>(null);
-    const [weather, setWeather] = useState<any>(null);
+    const [address, setAddress] = useState<AddressData | null>(null);
+    const [weather, setWeather] = useState<WeatherData | null>(null);
     const [places, setPlaces] = useState(placesMock);
+    const [loading, setLoading] = useState(false);
 
     const [category, setCategory] = useState("Todos");
     const [error, setError] = useState("");
@@ -29,29 +31,31 @@ export const InicioPage = () => {
             setError("");
             setAddress(null);
             setWeather(null);
+            setPlaces([]);
+            setLoading(true);
 
-            const addressData = await getAddressByCep(cep);
+            const result = await searchRegion(cep);
 
-            const coords = await getCoordinates(addressData.localidade);
-
-            const weatherData = await getWeather(
-                coords.latitude,
-                coords.longitude
-            );
-
-            setAddress(addressData);
-            setWeather(weatherData);
-            setPlaces(placesMock);
+            setAddress(result.address);
+            setWeather(result.weather);
+            setPlaces(result.places);
 
             setTimeout(() => {
                 setScreenState("success");
             }, 700);
-        } catch (err: any) {
-            setError(err.message || "Não foi possível encontrar essa região.");
+        } catch (error) {
+            const message =
+                error instanceof Error
+                    ? error.message
+                    : "Não foi possível encontrar essa região.";
+
+            setError(message);
 
             setTimeout(() => {
                 setScreenState("error");
             }, 700);
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -74,24 +78,12 @@ export const InicioPage = () => {
             <Header />
 
             <main className="p-6 pb-28">
-                {screenState === "idle" && (
-                    <>
-                        <FindSection
-                            cep={cep}
-                            setCep={setCep}
-                            onSearch={handleSearch}
-                            loading={false}
-                        />
-
-                        <section className="mt-8">
-                            <div className="flex flex-nowrap items-stretch justify-between gap-2 sm:gap-4 overflow-x-auto pb-2">
-                                <CardSimple typer="endereco" />
-                                <CardSimple typer="clima" />
-                                <CardSimple typer="local" />
-                            </div>
-                        </section>
-                    </>
-                )}
+                {screenState === "idle" && (<DefaultScreen
+                    cep={cep}
+                    setCep={setCep}
+                    onSearch={handleSearch}
+                    loading={loading}
+                />)}
 
                 {screenState === "loading" && <LoadingSearch />}
 
