@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  # Ambiente de Desenvolvimento (Vite com hot-reload)
+  dev:
+    build:
+      context: .
+      target: dev
+    container_name: gli-dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+
+  # Ambiente de Produção (Nginx servindo arquivos estáticos)
+  prod:
+    build:
+      context: .
+      target: prod
+    container_name: gli-prod
+    ports:
+      - "8080:80"
