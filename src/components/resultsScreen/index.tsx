@@ -48,19 +48,29 @@ export function ResultScreen({
             <h2 className="text-xl font-bold">Explore locais úteis</h2>
 
             <div className="flex gap-2 overflow-x-auto sem-scrollbar pb-1">
-                {["Todos", "Mercado", "Farmácia", "Escola", "Hospital", "Turismo"].map(
-                    (item) => (
-                        <button
-                            key={item}
-                            onClick={() => setCategory(item)}
-                            className={`px-4 py-2 rounded-xl text-sm whitespace-nowrap transition ${category === item
-                                ? "bg-emerald-500 text-white"
-                                : "bg-slate-900 text-slate-300 border border-slate-800"
-                                }`}
-                        >
-                            {item}
-                        </button>
-                    )
+                {[
+                    "Todos",
+                    "Restaurante",
+                    "Mercado",
+                    "Farmácia",
+                    "Hospital",
+                    "Escola",
+                    "Banco",
+                    "Padaria",
+                    "Academia",
+                    "Turismo",
+                ].map((item) => (
+                    <button
+                        key={item}
+                        onClick={() => setCategory(item)}
+                        className={`px-4 py-2 rounded-xl text-sm whitespace-nowrap transition ${category === item
+                            ? "bg-emerald-500 text-white"
+                            : "bg-slate-900 text-slate-300 border border-slate-800"
+                            }`}
+                    >
+                        {item}
+                    </button>
+                )
                 )}
             </div>
 
@@ -69,7 +79,7 @@ export function ResultScreen({
             />
 
             <p className="text-center text-xs text-slate-500">
-                Locais simulados para fins acadêmicos
+                Locais obtidos por dados públicos do OpenStreetMap. Algumas informações podem estar incompletas.
             </p>
         </section>
     );

@@ -54,7 +54,7 @@ function translateCategory(place: OverpassElement) {
         mall: "Shopping",
         clothes: "Loja de roupas",
         bakery: "Padaria",
-        attraction: "Ponto turístico",
+        attraction: "Turismo",
         park: "Parque",
         fitness_centre: "Academia",
         police: "Polícia",
