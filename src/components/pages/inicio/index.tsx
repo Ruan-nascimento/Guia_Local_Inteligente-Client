@@ -7,6 +7,7 @@ import { placesMock } from "@/data/places";
 import type { AddressData } from "@/interfaces/cepService.interface";
 import type { ScreenState } from "@/interfaces/screenState.interface";
 import type { WeatherData } from "@/interfaces/weatherService.interface";
+import type { LocalsPerRegionProps } from "@/interfaces/localsPerRegion.interface";
 import { searchRegion } from "@/services/searchRegion";
 import { addRecentCep } from "@/utils/addRecentCep";
 import { useState } from "react";
@@ -19,7 +20,7 @@ export const InicioPage = () => {
 
     const [address, setAddress] = useState<AddressData | null>(null);
     const [weather, setWeather] = useState<WeatherData | null>(null);
-    const [places, setPlaces] = useState(placesMock);
+    const [places, setPlaces] = useState<LocalsPerRegionProps[]>(placesMock);
     const [loading, setLoading] = useState(false);
 
     const [category, setCategory] = useState("Todos");

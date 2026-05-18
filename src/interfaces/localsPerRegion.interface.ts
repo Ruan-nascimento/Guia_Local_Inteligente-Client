@@ -3,8 +3,10 @@ export interface LocalsPerRegionProps {
     name: string;
     category: string;
     description: string;
-    rating: number;
+    rating: number | null;
     hours: string;
+    latitude?: number;
+    longitude?: number;
 }
 
 export interface filteredPlacesProps {
