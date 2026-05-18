@@ -1,9 +1,5 @@
-type FindSectionProps = {
-    cep: string;
-    setCep: (value: string) => void;
-    onSearch: () => void;
-    loading: boolean;
-};
+import type { FindSectionProps } from "@/interfaces/findSection.interface";
+
 
 export function FindSection({
     cep,
@@ -32,7 +28,7 @@ export function FindSection({
             </div>
 
             <button
-                onClick={onSearch}
+                onClick={() => onSearch()}
                 disabled={loading}
                 className="mt-4 w-full rounded-2xl bg-emerald-500 py-4 font-bold text-white disabled:opacity-60"
             >

@@ -7,6 +7,7 @@ import { placesMock } from "@/data/places";
 import type { AddressData } from "@/interfaces/cepService.interface";
 import type { WeatherData } from "@/interfaces/weatherService.interface";
 import { searchRegion } from "@/services/searchRegion";
+import { addRecentCep } from "@/utils/addRecentCep";
 import { useState } from "react";
 
 type ScreenState = "idle" | "loading" | "success" | "error";
@@ -23,7 +24,8 @@ export const InicioPage = () => {
     const [category, setCategory] = useState("Todos");
     const [error, setError] = useState("");
 
-    async function handleSearch() {
+    async function handleSearch(searchCep?: string | unknown) {
+        const targetCep = typeof searchCep === "string" ? searchCep : cep;
         try {
             setScreenState("loading");
             setError("");
@@ -32,11 +34,14 @@ export const InicioPage = () => {
             setPlaces([]);
             setLoading(true);
 
-            const result = await searchRegion(cep);
+            const result = await searchRegion(targetCep);
 
             setAddress(result.address);
             setWeather(result.weather);
             setPlaces(result.places);
+
+            //função para adicionar o cep na lista de cep's recentes no localStorage
+            addRecentCep(targetCep);
 
             setTimeout(() => {
                 setScreenState("success");

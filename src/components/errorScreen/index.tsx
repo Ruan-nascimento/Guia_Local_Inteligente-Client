@@ -58,7 +58,7 @@ export function ErrorScreen({
                 </p>
 
                 <button
-                    onClick={onSearch}
+                    onClick={() => onSearch()}
                     className="w-full rounded-2xl bg-emerald-500 py-4 font-bold text-white"
                 >
                     Tentar novamente
