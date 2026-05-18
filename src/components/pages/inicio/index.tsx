@@ -1,7 +1,5 @@
-import { CardSimple } from "@/components/cardSimple";
 import { DefaultScreen } from "@/components/defaultScreen";
 import { ErrorScreen } from "@/components/errorScreen";
-import { FindSection } from "@/components/findSection";
 import { Header } from "@/components/header";
 import { LoadingSearch } from "@/components/loadingSearch";
 import { ResultScreen } from "@/components/resultsScreen";
