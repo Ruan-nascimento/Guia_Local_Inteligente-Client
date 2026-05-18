@@ -5,12 +5,13 @@ import { LoadingSearch } from "@/components/loadingSearch";
 import { ResultScreen } from "@/components/resultsScreen";
 import { placesMock } from "@/data/places";
 import type { AddressData } from "@/interfaces/cepService.interface";
+import type { ScreenState } from "@/interfaces/screenState.interface";
 import type { WeatherData } from "@/interfaces/weatherService.interface";
 import { searchRegion } from "@/services/searchRegion";
 import { addRecentCep } from "@/utils/addRecentCep";
 import { useState } from "react";
 
-type ScreenState = "idle" | "loading" | "success" | "error";
+
 
 export const InicioPage = () => {
     const [cep, setCep] = useState("");
@@ -78,7 +79,7 @@ export const InicioPage = () => {
 
     return (
         <div className="min-h-dvh w-screen bg-[#020617] text-white">
-            <Header />
+            <Header setScreenState={setScreenState} />
 
             <main className="p-6 pb-28">
                 {screenState === "idle" && (<DefaultScreen

@@ -1,0 +1,1 @@
+export type ScreenState = "idle" | "loading" | "success" | "error";
