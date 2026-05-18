@@ -2,6 +2,17 @@ import { CardCityNameAndCEP } from "../cardCityNameAndCEP";
 import { AddressInformations } from "../addresInformations";
 import { WeatherCondition } from "../weatherCondition";
 import { LocalsPerRegion } from "../localsPerRegion";
+import type { AddressData } from "@/interfaces/cepService.interface";
+import type { WeatherData } from "@/interfaces/weatherService.interface";
+import type { LocalsPerRegionProps } from "@/interfaces/localsPerRegion.interface";
+
+export interface ResultScreenProps {
+    address: AddressData;
+    weather: WeatherData;
+    category: string;
+    setCategory: (category: string) => void;
+    filteredPlaces: LocalsPerRegionProps[];
+}
 
 export function ResultScreen({
     address,
@@ -9,7 +20,7 @@ export function ResultScreen({
     category,
     setCategory,
     filteredPlaces,
-}) {
+}: ResultScreenProps) {
     return (
         <section className="space-y-4 animate-[fadeIn_0.3s_ease]">
 

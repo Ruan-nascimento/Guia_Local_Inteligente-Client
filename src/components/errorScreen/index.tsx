@@ -1,4 +1,5 @@
 import { AlertTriangle } from "lucide-react";
+import type { ErrorScreenProps } from "@/interfaces/errorScreen.interface";
 
 export function ErrorScreen({
     cep,
@@ -6,7 +7,7 @@ export function ErrorScreen({
     error,
     onSearch,
     onReset,
-}) {
+}: ErrorScreenProps) {
     return (
         <section className="space-y-5 animate-[fadeIn_0.3s_ease]">
             <h1 className="text-3xl font-bold">Buscar região</h1>
