@@ -11,6 +11,9 @@ import type { LocalsPerRegionProps } from "@/interfaces/localsPerRegion.interfac
 import { searchRegion } from "@/services/searchRegion";
 import { addRecentCep } from "@/utils/addRecentCep";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { authClient } from "@/lib/auth-client";
+
 
 
 
@@ -26,9 +29,17 @@ export const InicioPage = () => {
     const [category, setCategory] = useState("Todos");
     const [error, setError] = useState("");
 
+    const navigate = useNavigate();
+    const hasUser = authClient.useSession().data?.user;
+
     async function handleSearch(searchCep?: string | unknown) {
         const targetCep = typeof searchCep === "string" ? searchCep : cep;
+
         try {
+            if (!hasUser) {
+                navigate("/login", { replace: true });
+                return;
+            }
             setScreenState("loading");
             setError("");
             setAddress(null);
