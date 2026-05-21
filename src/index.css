@@ -11,6 +11,25 @@ body {
 
 }
 
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0.6;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 @theme inline {
 
     --font-heading: var(--font-sans);

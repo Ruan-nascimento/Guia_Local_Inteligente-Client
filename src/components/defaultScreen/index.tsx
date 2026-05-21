@@ -20,7 +20,10 @@ export const DefaultScreen = ({
 
     recentCeps.forEach((cep) => {
         const apenasNumeros = cep.replace(/\D/g, "");
-        cepsFormated.push(apenasNumeros.replace(/(\d{5})(\d{3})/, "$1-$2"));
+        const formatedCep = apenasNumeros.replace(/(\d{5})(\d{3})/, "$1-$2");
+        if (!cepsFormated.includes(formatedCep)) {
+            cepsFormated.push(formatedCep);
+        }
     });
 
     const typedNumbers = cep.replace(/\D/g, "");
