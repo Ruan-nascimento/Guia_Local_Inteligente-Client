@@ -5,7 +5,6 @@ import type {
 
 import {
     Clock,
-    Heart,
     MapPin,
     Star,
     Store,
@@ -120,10 +119,6 @@ export const LocalsPerRegion = ({ filteredPlaces }: filteredPlacesProps) => {
                                         </p>
                                     </div>
 
-                                    <Heart
-                                        size={18}
-                                        className="shrink-0 text-slate-600 transition group-hover:text-emerald-400"
-                                    />
                                 </div>
 
                                 <p

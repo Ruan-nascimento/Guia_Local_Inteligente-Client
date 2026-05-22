@@ -1,4 +1,4 @@
-import { Heart, House, Info } from "lucide-react";
+import { House, Info } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 export const NavigationMobile = () => {
@@ -12,10 +12,15 @@ export const NavigationMobile = () => {
                 <House />
                 Início
             </Link>
+            {
+                /*
+                
             <Link to="/favoritos" className={`flex flex-col border-t-3 p-2 items-center text-sm ${path === "/favoritos" ? "text-emerald-500 border-emerald-500" : "text-gray-400 border-transparent"} duration-200 ease-in-out hover:text-emerald-500 hover:border-emerald-500 cursor-pointer`}>
                 <Heart />
                 Favoritos
             </Link>
+                */
+            }
             <Link to="/sobre" className={`flex flex-col border-t-3 p-2 items-center text-sm ${path === "/sobre" ? "text-emerald-500 border-emerald-500" : "text-gray-400 border-transparent"} duration-200 ease-in-out hover:text-emerald-500 hover:border-emerald-500 cursor-pointer`}>
                 <Info />
                 Sobre
