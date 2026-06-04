@@ -1,15 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import type { ScreenState } from "@/interfaces/screenState.interface";
-import { authClient } from "@/lib/auth-client";
+import { useAuth } from "@/providers/AuthProvider";
 
-export const Header = ({setScreenState}: {setScreenState: (s: ScreenState) => void}) => {
+interface HeaderProps {
+    setScreenState?: (s: any) => void;
+}
 
-    const navigate = useNavigate();
+export const Header = ({ setScreenState }: HeaderProps) => {
 
-    const { data, isPending } = authClient.useSession();
-
-    const user = data?.user;
+    const { user, isLoading, signOut } = useAuth();
 
     const nameInitials =
         user?.name
@@ -21,18 +20,17 @@ export const Header = ({setScreenState}: {setScreenState: (s: ScreenState) => vo
 
     const imgUrl = user?.image || undefined;
 
-    async function handleSignOut() {
-        await authClient.signOut();
-        navigate("/login", { replace: true });
+    function handleLogoClick() {
+        if (setScreenState) {
+            setScreenState("idle");
+        }
     }
 
     return (
         <header className="flex justify-between items-center bg-gray-950 p-3 px-6 border-b border-emerald-500/40">
             <div className="flex gap-4 items-center">
                 <Link
-                    onClick={() => {
-                        setScreenState("idle");
-                    }}
+                    onClick={handleLogoClick}
                     to="/"
                 >
                     <img src="/logo.png" alt="logo gli" className="size-10" />
@@ -43,10 +41,32 @@ export const Header = ({setScreenState}: {setScreenState: (s: ScreenState) => vo
                 </h2>
             </div>
 
+            {/* Navegação Desktop */}
+            <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+                <Link
+                    to="/"
+                    className="text-slate-300 hover:text-emerald-400 transition duration-200"
+                >
+                    Início
+                </Link>
+                <Link
+                    to="/favoritos"
+                    className="text-slate-300 hover:text-emerald-400 transition duration-200"
+                >
+                    Favoritos
+                </Link>
+                <Link
+                    to="/sobre"
+                    className="text-slate-300 hover:text-emerald-400 transition duration-200"
+                >
+                    Sobre
+                </Link>
+            </nav>
+
             {
                 user ? (
                     <Avatar
-                    onClick={handleSignOut}
+                    onClick={signOut}
                     className="size-10 cursor-pointer duration-200 border border-transparent ease-in-out hover:border-emerald-500 hover:rotate-8"
                     >
                         <AvatarImage
@@ -57,14 +77,14 @@ export const Header = ({setScreenState}: {setScreenState: (s: ScreenState) => vo
                         />
 
                         <AvatarFallback className="bg-emerald-500 text-white font-medium">
-                            {isPending ? "..." : nameInitials}
+                            {isLoading ? "..." : nameInitials}
                         </AvatarFallback>
                     </Avatar>
                 ) :
                 (
-                    <button className="bg-emerald-600 p-2 px-3 rounded-lg cursor-pointer text-xs duration-200 hover:bg-emerald-500 active:bg-emerald-700" onClick={() => navigate("/login")}>
+                    <Link to="/login" className="bg-emerald-600 p-2 px-3 rounded-lg cursor-pointer text-xs duration-200 hover:bg-emerald-500 active:bg-emerald-700">
                         Entrar
-                    </button>
+                    </Link>
                 )
             }
         </header>

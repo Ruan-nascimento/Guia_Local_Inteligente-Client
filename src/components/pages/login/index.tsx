@@ -1,22 +1,11 @@
 import { GoogleIcon } from "@/components/googleIcon";
-import { authClient } from "@/lib/auth-client";
+import { useAuth } from "@/providers/AuthProvider";
 import { Navigate } from "react-router-dom";
 
 export function LoginPage() {
-    const { error, isPending, data } = authClient.useSession();
+    const { user, isLoading, signInWithGoogle } = useAuth();
 
-    async function handleLoginWithGoogle() {
-        await authClient.signIn.social({
-            provider: "google",
-            callbackURL: `${import.meta.env.VITE_FRONTEND_URL}/`,
-        });
-    }
-
-    if (error) {
-        return <Navigate to="/error" replace />;
-    }
-
-    if (data) {
+    if (user) {
         return <Navigate to="/" replace />;
     }
 
@@ -56,11 +45,11 @@ export function LoginPage() {
                     </div>
 
                     <button
-                        onClick={handleLoginWithGoogle}
-                        disabled={isPending}
+                        onClick={signInWithGoogle}
+                        disabled={isLoading}
                         className="flex cursor-pointer w-full items-center justify-center gap-3 rounded-2xl bg-white px-4 py-4 font-bold text-gray-900 duration-200 ease-in-out hover:bg-slate-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70"
                     >
-                        {isPending ? (
+                        {isLoading ? (
                             "Carregando..."
                         ) : (
                             <>
@@ -75,4 +64,3 @@ export function LoginPage() {
         </main>
     );
 }
-

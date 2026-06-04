@@ -1,10 +1,9 @@
-import type {
-    filteredPlacesProps,
-    LocalsPerRegionProps,
-} from "@/interfaces/localsPerRegion.interface";
+import type { Place } from "@/hooks/useSearch";
+import { useFavorites } from "@/hooks/useFavorites";
 
 import {
     Clock,
+    Heart,
     MapPin,
     Star,
     Store,
@@ -69,7 +68,31 @@ function getTodayOpeningHours(hours?: string) {
     return todayPart.replace(/^(Mo|Tu|We|Th|Fr|Sa|Su)(-(Mo|Tu|We|Th|Fr|Sa|Su))?\s?/, "");
 }
 
-export const LocalsPerRegion = ({ filteredPlaces }: filteredPlacesProps) => {
+export const LocalsPerRegion = ({ filteredPlaces }: { filteredPlaces: Place[] }) => {
+    const { add, remove, isFavorite } = useFavorites();
+
+    const handleToggleFavorite = async (place: Place) => {
+        try {
+            const placeIdStr = String(place.id);
+            if (isFavorite(placeIdStr)) {
+                await remove(placeIdStr);
+            } else {
+                await add({
+                    placeId: placeIdStr,
+                    name: place.name,
+                    category: place.category,
+                    description: place.description,
+                    rating: place.rating,
+                    hours: place.hours,
+                    latitude: place.latitude,
+                    longitude: place.longitude,
+                });
+            }
+        } catch (error) {
+            console.error("Erro ao favoritar/desfavoritar:", error);
+        }
+    };
+
     if (filteredPlaces.length === 0) {
         return (
             <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 text-center">
@@ -88,9 +111,9 @@ export const LocalsPerRegion = ({ filteredPlaces }: filteredPlacesProps) => {
 
     return (
         <div className="grid gap-3 sm:grid-cols-2">
-            {filteredPlaces.map((place: LocalsPerRegionProps) => {
-                const todayHours = getTodayOpeningHours(place.hours);
-
+            {filteredPlaces.map((place: Place) => {
+                const todayHours = getTodayOpeningHours(place.hours ?? undefined);
+                const isFav = isFavorite(String(place.id));
                 const tooltip = `${place.name} - ${place.description}`;
 
                 return (
@@ -106,7 +129,7 @@ export const LocalsPerRegion = ({ filteredPlaces }: filteredPlacesProps) => {
 
                             <div className="min-w-0 flex-1">
                                 <div className="flex items-start justify-between gap-2">
-                                    <div className="min-w-0">
+                                    <div className="min-w-0 flex-1">
                                         <h3
                                             title={place.name}
                                             className="truncate text-sm font-bold text-slate-100"
@@ -119,10 +142,27 @@ export const LocalsPerRegion = ({ filteredPlaces }: filteredPlacesProps) => {
                                         </p>
                                     </div>
 
+                                    <button
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            handleToggleFavorite(place);
+                                        }}
+                                        className="text-slate-400 transition duration-200 hover:text-red-500 focus:outline-none"
+                                    >
+                                        <Heart
+                                            size={18}
+                                            className={
+                                                isFav
+                                                    ? "scale-110 fill-red-500 text-red-500"
+                                                    : "hover:scale-110"
+                                            }
+                                        />
+                                    </button>
                                 </div>
 
                                 <p
-                                    title={place.description}
+                                    title={place.description ?? ""}
                                     className="mt-3 line-clamp-2 text-xs leading-relaxed text-slate-400"
                                 >
                                     {place.description}
@@ -141,7 +181,7 @@ export const LocalsPerRegion = ({ filteredPlaces }: filteredPlacesProps) => {
 
                                     {todayHours !== "Horário não informado" && (
                                         <span
-                                            title={place.hours}
+                                            title={place.hours ?? ""}
                                             className="flex items-center gap-1 rounded-full bg-slate-950 px-2 py-1"
                                         >
                                             <Clock size={13} />

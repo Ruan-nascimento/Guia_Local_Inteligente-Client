@@ -5,15 +5,14 @@ import { FeatureList } from "@/components/about/featureList";
 import { SectionTitle } from "@/components/about/sectionTitle";
 import { TechStack } from "@/components/about/techStack";
 import { Header } from "@/components/header";
-import type { ScreenState } from "@/interfaces/screenState.interface";
 
 
-export const SobrePage = ({setScreenState}: {setScreenState: (s: ScreenState) => void}) => {
+export const SobrePage = () => {
     return (
         <div className="min-h-dvh bg-gray-950 text-white">
-            <Header setScreenState={setScreenState}/>
+            <Header />
 
-            <main className="px-6 pb-32 pt-10">
+            <main className="px-6 pb-32 md:pb-12 pt-10">
                 <section className="mx-auto flex max-w-5xl flex-col gap-8">
                     <div>
                         <h1 className="text-4xl font-bold tracking-tight">

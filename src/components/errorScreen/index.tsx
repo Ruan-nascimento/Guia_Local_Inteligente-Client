@@ -9,7 +9,7 @@ export function ErrorScreen({
     onReset,
 }: ErrorScreenProps) {
     return (
-        <section className="space-y-5 animate-[fadeIn_0.3s_ease]">
+        <section className="max-w-xl mx-auto space-y-5 animate-[fadeIn_0.3s_ease]">
             <h1 className="text-3xl font-bold">Buscar região</h1>
 
             <div className="w-full rounded-2xl bg-slate-900 border border-slate-700 px-4 py-4 flex items-center gap-3">

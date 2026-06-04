@@ -61,7 +61,7 @@ export const DefaultScreen = ({
                     }
                 </div>
 
-                <div className="flex flex-nowrap items-stretch justify-between gap-2 sm:gap-4 overflow-x-auto pb-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 pb-2">
                     <CardSimple typer="endereco" />
                     <CardSimple typer="clima" />
                     <CardSimple typer="local" />

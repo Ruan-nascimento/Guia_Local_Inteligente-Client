@@ -18,22 +18,24 @@ export function FindSection({
                 Pesquise por CEP ou cidade e obtenha dados essenciais da região desejada.
             </p>
 
-            <div className="mt-6 rounded-2xl bg-slate-900 border border-slate-700 px-4 py-4">
-                <input
-                    value={cep}
-                    onChange={(e) => setCep(e.target.value)}
-                    placeholder="Ex: 57000-000 ou Maceió"
-                    className="w-full bg-transparent outline-none text-white placeholder:text-slate-500"
-                />
-            </div>
+            <div className="mt-6 flex flex-col md:flex-row md:items-stretch gap-3">
+                <div className="flex-1 rounded-2xl bg-slate-900 border border-slate-700 px-4 py-4 flex items-center">
+                    <input
+                        value={cep}
+                        onChange={(e) => setCep(e.target.value)}
+                        placeholder="Ex: 57000-000 ou Maceió"
+                        className="w-full bg-transparent outline-none text-white placeholder:text-slate-500"
+                    />
+                </div>
 
-            <button
-                onClick={() => onSearch()}
-                disabled={loading}
-                className="mt-4 w-full rounded-2xl bg-emerald-500 py-4 font-bold text-white disabled:opacity-60"
-            >
-                {loading ? "Buscando..." : "Buscar região"}
-            </button>
+                <button
+                    onClick={() => onSearch()}
+                    disabled={loading}
+                    className="w-full md:w-auto md:px-8 rounded-2xl bg-emerald-500 py-4 font-bold text-white disabled:opacity-60 shrink-0 cursor-pointer duration-200 hover:bg-emerald-600 active:scale-[0.98]"
+                >
+                    {loading ? "Buscando..." : "Buscar região"}
+                </button>
+            </div>
         </section>
     );
 }

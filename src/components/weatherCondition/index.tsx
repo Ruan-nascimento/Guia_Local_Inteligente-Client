@@ -1,5 +1,11 @@
 import { CloudSun } from "lucide-react";
-import type { WeatherConditionProps } from "@/interfaces/weatherCondition.interface";
+
+export interface WeatherConditionProps {
+    temperature: number;
+    condition: string;
+    max: number;
+    min: number;
+}
 
 export const WeatherCondition = ({ temperature, condition, max, min }: WeatherConditionProps) => {
     return (
