@@ -94,8 +94,8 @@ export const FavoritosPage = () => {
                                                 name: fav.name,
                                                 category: fav.category,
                                                 description: fav.description || "",
-                                                latitude: fav.latitude,
-                                                longitude: fav.longitude,
+                                                latitude: fav.latitude || 0,
+                                                longitude: fav.longitude || 0,
                                                 rating: fav.rating || null,
                                                 hours: fav.hours || ""
                                             };
