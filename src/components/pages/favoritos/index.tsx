@@ -10,10 +10,14 @@ import {
     Search,
     Bookmark
 } from "lucide-react";
+import { formatOpeningHours } from "@/lib/utils";
+import { useModal } from "@/providers/ModalProvider";
+import type { Place } from "@/hooks/useSearch";
 
 export const FavoritosPage = () => {
     const { user, isLoading: authLoading } = useAuth();
     const { favorites, isLoading: favLoading, remove } = useFavorites();
+    const { openModal } = useModal();
 
     if (authLoading) {
         return (
@@ -84,7 +88,20 @@ export const FavoritosPage = () => {
                                 return (
                                     <article
                                         key={fav.id}
-                                        className="group rounded-2xl border border-slate-800 bg-slate-900/90 p-4 transition hover:-translate-y-0.5 hover:border-emerald-500/50 hover:bg-slate-900"
+                                        onClick={() => {
+                                            const placeToOpen: Place = {
+                                                id: Number(fav.placeId),
+                                                name: fav.name,
+                                                category: fav.category,
+                                                description: fav.description || "",
+                                                latitude: fav.latitude,
+                                                longitude: fav.longitude,
+                                                rating: fav.rating || null,
+                                                hours: fav.hours || ""
+                                            };
+                                            openModal("PlaceDetail", { place: placeToOpen });
+                                        }}
+                                        className="group cursor-pointer rounded-2xl border border-slate-800 bg-slate-900/90 p-4 transition hover:-translate-y-0.5 hover:border-emerald-500/50 hover:bg-slate-900"
                                     >
                                         <div className="flex gap-3">
                                             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/10">
@@ -106,7 +123,11 @@ export const FavoritosPage = () => {
                                                     </div>
 
                                                     <button
-                                                        onClick={() => handleRemoveFavorite(fav.placeId)}
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            e.stopPropagation();
+                                                            handleRemoveFavorite(fav.placeId);
+                                                        }}
                                                         className="text-red-400 hover:text-red-500 p-1 rounded-lg hover:bg-red-500/10 transition duration-200 focus:outline-none"
                                                         title="Remover dos favoritos"
                                                     >
@@ -132,13 +153,14 @@ export const FavoritosPage = () => {
                                                     )}
 
                                                     {fav.hours && (
-                                                        <span
-                                                            title={fav.hours}
-                                                            className="flex items-center gap-1 rounded-full bg-slate-950 px-2 py-1"
-                                                        >
-                                                            <Clock size={13} />
-                                                            {fav.hours}
-                                                        </span>
+                                                        <div className="flex items-start gap-1 rounded-full bg-slate-950 px-2 py-1 mt-1 w-full">
+                                                            <Clock size={13} className="shrink-0 mt-0.5" />
+                                                            <div className="flex flex-col gap-0.5 min-w-0">
+                                                                {formatOpeningHours(fav.hours).map((line, i) => (
+                                                                    <span key={i} className="break-words leading-relaxed">{line}</span>
+                                                                ))}
+                                                            </div>
+                                                        </div>
                                                     )}
                                                 </div>
                                             </div>

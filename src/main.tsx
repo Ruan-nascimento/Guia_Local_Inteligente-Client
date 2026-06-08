@@ -6,13 +6,17 @@ import { ModalProvider } from "./providers/ModalProvider"
 import App from "./App"
 import "./index.css"
 
+import { FavoritesProvider } from "./providers/FavoritesProvider"
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <ModalProvider>
-          <App />
-        </ModalProvider>
+        <FavoritesProvider>
+          <ModalProvider>
+            <App />
+          </ModalProvider>
+        </FavoritesProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>

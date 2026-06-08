@@ -15,31 +15,7 @@ import { useModal } from "@/providers/ModalProvider";
 import { useFavorites } from "@/hooks/useFavorites";
 import { MapPin, Heart, Star, Clock, Map } from "lucide-react";
 import type { Place } from "@/hooks/useSearch";
-
-function formatOpeningHours(hours?: string) {
-  if (!hours || hours === "Horário não informado") return ["Não informado"];
-  if (hours === "24/7") return ["Aberto 24h"];
-
-  const daysMap: Record<string, string> = {
-    Mo: "Seg",
-    Tu: "Ter",
-    We: "Qua",
-    Th: "Qui",
-    Fr: "Sex",
-    Sa: "Sáb",
-    Su: "Dom",
-    PH: "Feriados",
-  };
-
-  return hours.split(";").map((part) => {
-    let formattedPart = part.trim();
-    Object.entries(daysMap).forEach(([en, pt]) => {
-      const regex = new RegExp(`\\b${en}\\b`, "g");
-      formattedPart = formattedPart.replace(regex, pt);
-    });
-    return formattedPart;
-  });
-}
+import { formatOpeningHours } from "@/lib/utils";
 
 // Componente isolado com o conteúdo do modal para reaproveitar no Dialog e no Drawer
 function PlaceDetailContent({ place }: { place: Place }) {
