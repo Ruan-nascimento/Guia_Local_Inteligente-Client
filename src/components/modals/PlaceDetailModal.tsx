@@ -57,7 +57,7 @@ function PlaceDetailContent({ place }: { place: Place }) {
           <MapPin size={28} className="text-emerald-400" />
         </div>
         <div className="flex-1 min-w-0">
-          <h2 className="text-xl font-bold text-white break-words">{place.name}</h2>
+          <h2 className="text-xl font-bold text-white wrap-break-words">{place.name}</h2>
           <span className="mt-1 inline-block rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400">
             {place.category}
           </span>
@@ -67,7 +67,7 @@ function PlaceDetailContent({ place }: { place: Place }) {
       <div className="space-y-4 rounded-xl border border-slate-800 bg-slate-900/50 p-4">
         <div className="min-w-0">
           <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">Descrição</h4>
-          <p className="text-sm text-slate-300 break-words">
+          <p className="text-sm text-slate-300 wrap-break-words">
             {place.description && place.description.trim() !== "" ? place.description : "Nenhuma descrição disponível."}
           </p>
         </div>
@@ -79,7 +79,7 @@ function PlaceDetailContent({ place }: { place: Place }) {
               <Clock size={16} className="text-slate-400 shrink-0 mt-0.5" />
               <div className="flex flex-col gap-1 min-w-0">
                 {formatOpeningHours(place.hours).map((line, i) => (
-                  <span key={i} className="text-xs break-words leading-relaxed">{line}</span>
+                  <span key={i} className="text-xs wrap-break-words leading-relaxed">{line}</span>
                 ))}
               </div>
             </div>
@@ -106,11 +106,10 @@ function PlaceDetailContent({ place }: { place: Place }) {
 
         <button
           onClick={handleToggleFavorite}
-          className={`flex items-center justify-center gap-2 w-full rounded-xl border px-4 py-3 text-sm font-semibold transition ${
-            isFav
+          className={`flex items-center justify-center gap-2 w-full rounded-xl border px-4 py-3 text-sm font-semibold transition ${isFav
               ? "border-red-500/20 bg-red-500/10 text-red-500 hover:bg-red-500/20"
               : "border-slate-800 bg-slate-900 text-slate-300 hover:bg-slate-800"
-          }`}
+            }`}
         >
           <Heart size={18} className={isFav ? "fill-red-500" : ""} />
           {isFav ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}

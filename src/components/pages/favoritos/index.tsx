@@ -157,7 +157,7 @@ export const FavoritosPage = () => {
                                                             <Clock size={13} className="shrink-0 mt-0.5" />
                                                             <div className="flex flex-col gap-0.5 min-w-0">
                                                                 {formatOpeningHours(fav.hours).map((line, i) => (
-                                                                    <span key={i} className="break-words leading-relaxed">{line}</span>
+                                                                    <span key={i} className="wrap-break-words leading-relaxed">{line}</span>
                                                                 ))}
                                                             </div>
                                                         </div>
