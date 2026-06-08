@@ -1,25 +1,39 @@
-# --- Estágio Base ---
-FROM node:22-alpine AS base
+# ==========================================
+# Estágio 1: Build da aplicação (Node)
+# ==========================================
+FROM node:20-alpine AS builder
+
+# Define o diretório de trabalho
 WORKDIR /app
-COPY package*.json ./
+
+# Copia os arquivos de dependência primeiro (otimiza o cache do Docker)
+COPY package.json package-lock.json* ./
+
+# Instala as dependências
 RUN npm install
 
-# --- Estágio de Desenvolvimento ---
-FROM base AS dev
+# Copia o restante do código
 COPY . .
-EXPOSE 5173
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
 
-# --- Estágio de Build ---
-FROM base AS builder
-COPY . .
+# Faz o build de produção (gera a pasta 'dist')
 RUN npm run build
 
-# --- Estágio de Produção (Nginx) ---
-FROM nginx:alpine AS prod
-RUN rm -rf /usr/share/nginx/html/*
-COPY --from=builder /app/dist /usr/share/nginx/html
-# Copia a configuração do Nginx para lidar com as rotas do React (SPA)
+# ==========================================
+# Estágio 2: Servidor Web (Nginx)
+# ==========================================
+FROM nginx:alpine
+
+# Remove as configurações padrão do Nginx
+RUN rm -rf /etc/nginx/conf.d/*
+
+# Copia a nossa configuração customizada
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copia os arquivos gerados no estágio de build
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Expõe a porta 80
 EXPOSE 80
+
+# Inicia o Nginx
 CMD ["nginx", "-g", "daemon off;"]
