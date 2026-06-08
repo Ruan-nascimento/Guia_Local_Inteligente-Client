@@ -4,7 +4,7 @@ import { FavoritosPage } from "./components/pages/favoritos";
 import { SobrePage } from "./components/pages/sobre";
 import { NavigationMobile } from "./components/navigationMobile";
 import { LoginPage } from "./components/pages/login";
-
+import { PlaceDetailModal } from "./components/modals/PlaceDetailModal";
 
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
         <Route path="/sobre" element={<SobrePage />} />
       </Routes>
       {pathname !== '/login' && <NavigationMobile />}
-
+      <PlaceDetailModal />
     </>
   )
 }

@@ -8,6 +8,7 @@ import {
     Star,
     Store,
 } from "lucide-react";
+import { useModal } from "@/providers/ModalProvider";
 
 const weekDays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
@@ -70,6 +71,7 @@ function getTodayOpeningHours(hours?: string) {
 
 export const LocalsPerRegion = ({ filteredPlaces }: { filteredPlaces: Place[] }) => {
     const { add, remove, isFavorite } = useFavorites();
+    const { openModal } = useModal();
 
     const handleToggleFavorite = async (place: Place) => {
         try {
@@ -120,7 +122,8 @@ export const LocalsPerRegion = ({ filteredPlaces }: { filteredPlaces: Place[] })
                     <article
                         key={place.id}
                         title={tooltip}
-                        className="group rounded-2xl border border-slate-800 bg-slate-900/90 p-4 transition hover:-translate-y-0.5 hover:border-emerald-500/50 hover:bg-slate-900"
+                        onClick={() => openModal("PlaceDetail", { place })}
+                        className="group cursor-pointer rounded-2xl border border-slate-800 bg-slate-900/90 p-4 transition hover:-translate-y-0.5 hover:border-emerald-500/50 hover:bg-slate-900"
                     >
                         <div className="flex gap-3">
                             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/10">
